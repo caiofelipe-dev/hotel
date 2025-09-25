@@ -8,7 +8,7 @@ use Fmk\Interfaces\Middleware;
 
 class NoAuthenticateMiddleware implements Middleware {
     public function handle() {
-        Router::getRouteByName('home');
+        Router::getRouteByName('home')->redirect();
     }
 
     public function check(): bool {
