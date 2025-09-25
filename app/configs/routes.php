@@ -2,7 +2,7 @@
 
 use Fmk\Facades\Router;
 
-Router::get('/', function() {})->middleware('Auth')->name('home');
+Router::get('/', {HomeController, "index"})->middleware('Auth')->name('home');
 
 Router::get('/login', function() {
     
