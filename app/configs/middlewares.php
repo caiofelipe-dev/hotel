@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'NoAuth' => App\Middlewares\NoAuthenticateMiddleware,
-    'Auth' => App\Middlewares\AuthenticateMiddleware
+    'NoAuth' => App\Middlewares\NoAuthenticateMiddleware::class,
+    'Auth' => App\Middlewares\AuthenticateMiddleware::class
 ];
