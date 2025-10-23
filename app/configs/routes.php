@@ -4,8 +4,13 @@ use App\Controllers\HomeController;
 use App\Middlewares\AuthenticateMiddleware;
 use Fmk\Facades\Router;
 
+// use Fmk\Facades\Config;
+// Config::get('middlewares.NoAuth');
+// Config::get('middlewares.Auth');
+
+
 // Router::get('/', [HomeController::class, 'index'])->middleware('Auth')->name('home');
-Router::get('/la/{a}/ele/{b}', [HomeController::class, 'index'])->middleware(AuthenticateMiddleware::class);
+Router::get('/teste/{a}/teste/{b}', [HomeController::class, 'index']);
 
 // Router::get('/login', function() {
     
