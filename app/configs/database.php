@@ -1,8 +1,10 @@
 <?php
 
 return [
-    'driver' => 'mysql',
-    'user' => 'root',
-    'password' => '',
-    'database' => 'ltp3'
+    'connection_default' => 'hotel',
+    'hotel' => [
+        'driver' => 'mysql',
+        'username' => 'root',
+        'password' => '',
+    ]
 ];
