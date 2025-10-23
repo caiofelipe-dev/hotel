@@ -6,8 +6,9 @@ use Fmk\Facades\Controller;
 use Fmk\Facades\Request;
 
 class HomeController extends Controller {
-    public function index(Request $request, $b, $a): void {
-        echo "HOMER recebe $a e $b, só falta o Request:<br><pre>";
-        var_dump($request);
+    public function index(): void {
+        $db = new Mysql(['username'=>'root', 'password'=>'', 'database'=>'']);
+        $db->getConnection();
+        return view('home', ['user'=>'Caio']);
     }
 }
