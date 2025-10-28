@@ -1,7 +1,8 @@
 <?php
 return [
-    'APPLICATION_NAME' => '',
-    'SESSION_NAME' => '',
+    'APPLICATION_NAME' => 'Hotel Management System',
+    'SESSION_NAME' => 'hotel_session',
     'APPLICATION_DEBUG' => true,
-    'APPLICATION_URL' => 'http',
+    "APPLICATION_ENV" => 'development',
+    'APPLICATION_URL' => 'http://hotel.test',
 ];
