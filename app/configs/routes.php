@@ -2,7 +2,6 @@
 
 use App\Controllers\HomeController;
 use App\Controllers\QuartosController;
-use App\Middlewares\AuthenticateMiddleware;
 use Fmk\Facades\Router;
 
 // use Fmk\Facades\Config;

@@ -6,15 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
-        <?=style('simple-datatables', 'styles')->show()?>
-        <?=script('fontawesome')->show()?>
+        <title><?=APPLICATION_NAME?></title>
         
+        <?=
+        script('fontawesome')->show()
+        ?>
+        <?=
+        style('simple-datatables', 'styles')->show()
+        ?>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">{{titulo}}</a>
+            <a class="navbar-brand ps-3" href=<?=route('home')?>><?=APPLICATION_NAME?></a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -109,13 +113,7 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                        
-                    </div>
+                    {{$VIEW}}
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
