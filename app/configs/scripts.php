@@ -9,9 +9,9 @@ return [
 	'fontawesome' => 'https://use.fontawesome.com/releases/v6.3.0/js/all.js',
 
 	// Scripts de tema (placeholders locais)
-	'script' => 'assets/js/scripts.js',
+	'script' => assets('js/scripts.js'),
 	
 	// Page / plugin scripts (use CDN when available)
 	'chart' => 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js',
-	'database' => 'js/datatables-simple-demo.js',
+	'database' => assets('js/datatables-simple-demo.js'),
 ];
