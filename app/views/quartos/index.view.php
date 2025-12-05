@@ -24,30 +24,37 @@
                     <?php if (!empty($quartos)): ?>
                         <?php foreach ($quartos as $q): ?>
                             <?php
-                            // $q may be object (DB) or array (session)
-                            $item = is_object($q) ? (array)$q : $q;
-                            $id = $item['id'] ?? '';
+                            // $q may be object (DB model) or array (session fallback)
+                            $isObject = is_object($q);
+                            $get = function($key) use ($q, $isObject) {
+                                if ($isObject) {
+                                    return $q->$key ?? null;
+                                }
+                                return $q[$key] ?? null;
+                            };
+                            $id = $get('id') ?? '';
                             ?>
                             <tr>
-                                <td><?= htmlspecialchars($item['numero'] ?? $item['id'] ?? '') ?></td>
-                                <td><?= htmlspecialchars($item['descricao'] ?? '') ?></td>
-                                <td><?= htmlspecialchars($item['qtd_camas_casal'] ?? 0) ?></td>
-                                <td><?= htmlspecialchars($item['qtd_camas_solteiro'] ?? 0) ?></td>
-                                <td><?= htmlspecialchars($item['max_camas_casal'] ?? 0) ?></td>
-                                <td><?= htmlspecialchars($item['max_camas_solteiro'] ?? 0) ?></td>
+                                <td><?= htmlspecialchars($get('numero') ?? $id) ?></td>
+                                <td><?= htmlspecialchars($get('descricao') ?? '') ?></td>
+                                <td><?= htmlspecialchars($get('qtd_camas_casal') ?? 0) ?></td>
+                                <td><?= htmlspecialchars($get('qtd_camas_solteiro') ?? 0) ?></td>
+                                <td><?= htmlspecialchars($get('max_camas_casal') ?? 0) ?></td>
+                                <td><?= htmlspecialchars($get('max_camas_solteiro') ?? 0) ?></td>
                                 <td>
                                     <?php
                                     $flags = [];
                                     foreach(['tem_ventilador','tem_ar_condicionado','tem_agua_quente','tem_banheira','tem_wifi','tem_frigobar','tem_tv','e_friendly_pet','e_acessivel'] as $f){
-                                        if(!empty($item[$f])) $flags[] = ucfirst(str_replace(['tem_','e_','_'], ['', '', ' '], $f));
+                                        $val = $get($f);
+                                        if(!empty($val)) $flags[] = ucfirst(str_replace(['tem_','e_','_'], ['', '', ' '], $f));
                                     }
                                     echo htmlspecialchars(implode(', ', $flags));
                                     ?>
                                 </td>
-                                <td><?= htmlspecialchars(number_format($item['preco_diaria'] ?? 0,2,',','.')) ?></td>
+                                <td><?= htmlspecialchars(number_format((float)($get('preco_diaria') ?? 0),2,',','.')) ?></td>
                                 <td>
                                     <?php
-                                        $created = $item['criado_em'] ?? '';
+                                        $created = $get('criado_em') ?? '';
                                         if (!empty($created) && strtotime($created) !== false) {
                                             echo htmlspecialchars(date('d/m/Y H:i', strtotime($created)));
                                         } else {

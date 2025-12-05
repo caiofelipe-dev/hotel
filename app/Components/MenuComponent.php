@@ -32,7 +32,7 @@ class MenuComponent extends Component
         return $this;
     }
 
-    public function render(array $data = [])
+    public function render(array $data = $this->data)
     {
         ob_start();
         $this->renderNav();
@@ -49,7 +49,8 @@ class MenuComponent extends Component
         </div>
     </div>
     <div class="sb-sidenav-footer">
-        <div class="small">Logged in as:</div>
+        <?php if($this->user): ?>
+        <div class="small">Logado como:</div>
         <?= htmlspecialchars($this->user) ?>
     </div>
 </nav>
