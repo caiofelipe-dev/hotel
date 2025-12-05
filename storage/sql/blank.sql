@@ -51,6 +51,7 @@ DROP TABLE IF EXISTS `quartos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `quartos` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `numero` varchar(20) NOT NULL,
   `descricao` varchar(100) NOT NULL,
   `preco_diaria` decimal(10,2) NOT NULL,
   `qtd_camas_casal` tinyint unsigned DEFAULT '0',

@@ -8,7 +8,7 @@ return [
         'port' => 3306,
         // 'database' => 'hotel', // nome padrão, pode ser sobrescrito pelo SQL
         'username' => 'root',
-        // 'password' => 'admin',
+        'password' => 'admin',
         'options' => [],
     ]
 ];

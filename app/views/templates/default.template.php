@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,17 +8,16 @@
         <meta name="author" content="" />
         <title><?=APPLICATION_NAME?></title>
         
-        <?=
-        script('fontawesome')->show()
-        ?>
-        <?=
-        style('simple-datatables', 'styles')->show()
-        ?>
+        <?= script('fontawesome')->show() ?>
+        <?= style('simple-datatables', 'styles', 'custom')->show() ?>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-3 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Sidebar Toggle (botão aumentado e mais visível) -->
+            <button class="btn btn-link btn-sm order-3 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+                <span class="visually-hidden">Abrir/fechar menu</span>
+            </button>
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-2" href=<?=route('home')?>><?=APPLICATION_NAME?></a>
             <!-- Navbar Search-->
@@ -33,10 +32,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="#!">Configurações</a></li>
+                        <li><a class="dropdown-item" href="#!">Registro de Atividades</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="#!">Sair</a></li>
                     </ul>
                 </li>
             </ul>
@@ -46,12 +45,12 @@
                 <?php
                 $menuItems = [
                     [
-                        'heading' => 'Core',
+                        'heading' => 'Principal',
                         'links' => [
                             [
-                                'href' => '/',
+                                'href' => (string)route('home'),
                                 'icon' => 'fas fa-home',
-                                'label' => 'Home',
+                                'label' => 'Início',
                                 'id' => ''
                             ]
                         ]
@@ -60,13 +59,13 @@
                         'heading' => 'Gerenciamento',
                         'links' => [
                             [
-                                'href' => '/quartos',
+                                'href' => (string)route('quartos.index'),
                                 'icon' => 'fas fa-bed',
                                 'label' => 'Quartos',
                                 'id' => 'collapseQuartos',
                                 'submenu' => [
-                                    ['href' => '/quartos', 'label' => 'Listar Quartos'],
-                                    ['href' => '/quartos/novo', 'label' => 'Novo Quarto']
+                                    ['href' => (string)route('quartos.index'), 'label' => 'Listar Quartos'],
+                                    ['href' => (string)route('quartos.create'), 'label' => 'Novo Quarto']
                                 ]
                             ]
                         ]

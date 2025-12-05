@@ -1,0 +1,29 @@
+/* Estilos customizados da aplicação */
+
+/* Aumenta área clicável do botão do sidebar e destaca o ícone */
+#sidebarToggle {
+    padding: 0.6rem 0.65rem;
+    border-radius: 0.35rem;
+}
+
+#sidebarToggle .fas {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+/* Pequeno realce visual para melhorar descoberta */
+#sidebarToggle:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+/* Ajuste do ícone de collapse no sidebar para ficar mais claro */
+.sb-sidenav .sb-nav-link-icon i {
+    font-size: 1.05rem;
+}
+
+/* Responsividade: garante que o botão permaneça acessível em telas pequenas */
+@media (max-width: 576px) {
+    #sidebarToggle {
+        padding: 0.5rem;
+    }
+}
