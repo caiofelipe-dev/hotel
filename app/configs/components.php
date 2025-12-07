@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'menu' => App\Components\MenuComponent::class,
+    'section' => App\Components\SectionNavComponent::class,
+    'item' => App\Components\ItemMenuComponent::class,
 ];

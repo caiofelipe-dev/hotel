@@ -16,31 +16,34 @@ use Fmk\Facades\Config;
  * @throws Exception Se o componente não for encontrado
  */
 if (!function_exists('component')) {
-    function component($component, array $data = [])
+    function component($component = NULL, array $content = [])
     {
         try {
+            if(is_null($component)) {
+                return (new Fmk\Facades\Component(''))->addContent($content);
+            }
             // 1. Tentar instanciar pela classe diretamente
             if (class_exists($component)) {
                 $instance = new $component();
-                if (method_exists($instance, 'setData')) {
-                    $instance->setData($data);
+                if (method_exists($instance, 'addContent')) {
+                    $instance->addContent($content);
                 }
                 return $instance;
             }
 
             // 2. Tentar buscar pela configuração
             $componentClass = Config::get("components.$component");
-            if ($componentClass && class_exists($componentClass)) {
+            if (class_exists($componentClass)) {
                 $instance = new $componentClass();
-                if (method_exists($instance, 'setData')) {
-                    $instance->setData($data);
+                if (method_exists($instance, 'addContent')) {
+                    $instance->addContent($content);
                 }
                 return $instance;
             }
 
             // 3. Fallback: arquivo de view
             $instance = new Fmk\Facades\Component(component_path($component));
-            $instance->setData($data);
+            $instance->setData($content);
             return $instance;
         } catch (\Exception $e) {
             throw new \Exception("Erro ao instanciar componente '{$component}': " . $e->getMessage());
