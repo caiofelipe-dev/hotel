@@ -9,12 +9,12 @@ use Fmk\Facades\Model;
  * Mantemos o padrão do framework: o nome da tabela é inferido a partir do nome da classe
  * (lowercase + 's'), mas definimos explicitamente por clareza.
  */
-class Quarto extends Model
+class QuartosAdicionais extends Model
 {
 	// Nome da tabela no banco de dados
-	protected static $table = 'quartos';
-	
-	public function quartosAdicionais() {
-		return $this->hasMany(\App\Models\QuartosAdicionais::class, 'quartos_id');
-	}
+	protected static $table = 'quartos_adicionais';
+    
+    public function quartos() {
+        return $this->belongsTo(\App\Models\Quartos::class, 'quartos_id');
+    }
 }

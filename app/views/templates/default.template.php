@@ -23,7 +23,7 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <input class="form-control" type="text" placeholder="Caçar por..." aria-label="Caçar por..." aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logado como:</div>
-                        <?= $user ?>
+                        <?= $user ?? 'Guest' ?>
                     </div>
                 </nav>
             </div>
@@ -67,7 +67,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4"><?= $title ?></h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active"><?= $title ?></li>
+                            <li class="breadcrumb-item active"><?= $sub_title ?></li>
                         </ol>
                         {{$VIEW}}
                     </div>

@@ -16,7 +16,7 @@ class QuartosController extends Controller
 {
     public function create()
     {
-        return view('quartos.create', ['title' => 'Cadastrar Quarto']);
+        return view('quartos.create', ['title' => 'Cadastrar Quarto', 'sub_title' => 'Cadastro de quartos']);
     }
 
     public function index()
