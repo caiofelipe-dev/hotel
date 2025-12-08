@@ -42,37 +42,13 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <?php
-                $menuItems = [
-                    [
-                        'heading' => 'Principal',
-                        'links' => [
-                            [
-                                'href' => (string)route('home'),
-                                'icon' => 'fas fa-home',
-                                'label' => 'Início',
-                                'id' => ''
-                            ]
-                        ]
-                    ],
-                    [
-                        'heading' => 'Gerenciamento',
-                        'links' => [
-                            [
-                                'href' => (string)route('quartos.index'),
-                                'icon' => 'fas fa-bed',
-                                'label' => 'Quartos',
-                                'id' => 'collapseQuartos',
-                                'submenu' => [
-                                    ['href' => (string)route('quartos.index'), 'label' => 'Listar Quartos'],
-                                    ['href' => (string)route('quartos.create'), 'label' => 'Novo Quarto']
-                                ]
-                            ]
-                        ]
-                    ]
-                ];
-                echo component('menu', ['items' => $menuItems, 'user' => $user ?? 'Guest'])->render();
-                ?>
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <?php
+                        component('section', );
+                        ?>
+                    </div>
+                </div>
             </div>
             <div id="layoutSidenav_content">
                 <main>
