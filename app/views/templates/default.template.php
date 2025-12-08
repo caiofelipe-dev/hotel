@@ -42,13 +42,25 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <?php
-                        component('section', );
-                        ?>
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <?=
+                            component('section', ['label'=>'Início', 'route'=>'home', 'icon'=>'fas fa-home'])->header('Principal');
+                            ?>
+                            <?php
+                            $quartos =item('Quartos','quartos.index', 'fas fa-bed', true);
+                            $quartos->subItem('Listar Quartos', 'quartos.index');
+                            $quartos->subItem('Novo Quarto', 'quartos.create');
+                            echo component('section', [$quartos])->header('Gerenciamento');
+                            ?>
+                        </div>
                     </div>
-                </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logado como:</div>
+                        <?= $user ?>
+                    </div>
+                </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>

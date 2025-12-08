@@ -8,12 +8,12 @@ use Fmk\Facades\Route;
 use Fmk\Facades\Router;
 
 class SectionNavComponent extends Component {
-    protected $items = [];
     protected $header;
     protected $tag = '';
-    
 
-    protected function __construct() {
+    protected $active_class = 'active';
+
+    public function __construct() {
     }
 
     /*
@@ -23,15 +23,16 @@ class SectionNavComponent extends Component {
     */
     public function addContent($items) {
         if(is_array($items)) {
-            foreach($items as $item) {
-                if($item instanceof ItemMenuComponent) {
-                    $this->item = $this->convertItem($item);
-                    continue;
-                }
-                $this->items[] = component('item', $item);
-            }
+            if((array_key_exists('label', $items) || array_key_exists('route', $items) || array_key_exists('url', $items)))
+                return $this->addContent(item(($items['label'] ?? NULL), ($items['route'] ?? $items['url']), ($items['icon'] ?? NULL)));
+            foreach($items as $item)
+                $this->addContent($item);
+            return $this;
         }
-        $this->items[] = ($items instanceof ItemMenuComponent) ? $items : throw new Exception("$items não é um argumento válido para o método addContent() do componente 'section'.");
+        if(!($items instanceof ItemMenuComponent))
+            parent::addContent($items);
+        else
+            $this->convertItem($items);
         
         return $this;
     }
@@ -45,7 +46,7 @@ class SectionNavComponent extends Component {
     protected $sub_a_attrs = [
         "data-bs-toggle"=>"collapse",
         "data-bs-target"=>"#collapseLayouts",
-        "aria-expanded"=>"true",
+        "aria-expanded"=>"false",
         "aria-controls"=>"collapseLayouts",
     ];
     protected $sub_div_attrs = [
@@ -53,26 +54,63 @@ class SectionNavComponent extends Component {
         "data-bs-parent"=>"#sidenavAccordion",
         "style"=>"",
     ];
-    protected $sub_arrow_icon = ['fas, fa-angle-down'];
+    protected $sub_arrow_icon = ['fas', 'fa-angle-down'];
 
-    protected function convertItem(ItemMenuComponent $item) {
-        $item->tag('a')->class('nav-link')->attr('href', "{$item->getRoute()}");            
-        if ($item->hasSubItem()) {
-            $icon = component()->tag('div')->class('sb-nav-link-icon')
-                ->addContent(component()->tag('i')->class(...$item->getIcon()));
-            $arrow = component()->tag('div')->class('sb-sidenav-collapse-arrow')
-                ->addContent(component()->tag('i')->class(...$this->sub_arrow_icon));
-            
-            //<div class="collapse show" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion" style="">
-            $collapse = component()->tag('div')->class("collapse", "show")->id("collapseLayouts")->attrs($this->sub_div_attrs);
-            $nav = component()->tag('nav')->class('sb-sidenav-menu-nested nav');
-            
-            $item->attrs($this->sub_a_attrs)->setContent([$icon, $arrow]);
-        } 
+    protected function convertItem(ItemMenuComponent &$item) {
+        $this->content[] = $item;
+        $active = $this->itemActive($item);
+        $item->tag('a')->class('nav-link')->attr('href', "{$item->getRoute()}")->setContent(
+            //Div do ícone
+            component()->tag('div')->class('sb-nav-link-icon')
+                ->addContent(component()->tag('i')->class(...$item->getIcon()))
+        )->setContent("{$item->getLabel()}");
+        if($item->hasSubItem()) {
+            $item->class('collapsed')->attrs($this->sub_a_attrs)->setContent(
+                //Div do ícone de arrow do submenu
+                component()->tag('div')->class('sb-sidenav-collapse-arrow')
+                    ->addContent(component()->tag('i')->class(...$this->sub_arrow_icon))
+            );
+            (!$active) || $item->updateAttr("aria-expanded", "true");
+            $sub_items = $item->getSubItems();
+            $this->content[] = $this->convertSubItem($sub_items, $active);
+        }
+    }
+
+    protected function itemActive(ItemMenuComponent &$item) {
+        $active = $item->isActive();
+        if($active)
+            $item->class(($item->getActiveClass() ?? $this->active_class));
+        return $active;
+    }
+    
+    protected function convertSubItem(array &$sub_items, $active) {
+        //<div class="collapse show" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion" style="">
+        $collapse = component()->tag('div')->class("collapse", ($active ? 'show' : ''))->id("collapseLayouts")->attrs($this->sub_div_attrs);
+        $nav = component()->tag('nav')->class('sb-sidenav-menu-nested nav');
+        foreach ($sub_items as &$item) {
+            if($item instanceof ItemMenuComponent) {
+                $item->tag('a')->class('nav-link')->attr('href', "{$item->getRoute()}")->setContent("{$item->getLabel()}");
+                $this->itemActive($item);
+                $nav->addContent($item);
+                continue;
+            }
+            throw new Exception("O subitem $item deve pertencer a ItemMenuComponent.");
+        }
+        return $collapse->addContent($nav);
     }
 
     public function header(string $header) {
-        $this->header = $header;
+        if(is_null($this->header)) {
+            $this->header = $header;
+            array_unshift($this->content, $this->body());
+            return $this;
+        }
+        if($header === $this->header)
+            return $this;
+
+        $first = &$this->content[array_key_first($this->content)];
+        if($first instanceof Component && $first->getContents() === $this->header)
+            $first->updateContent("{$header}");
         return $this;
     }
     
@@ -84,8 +122,11 @@ class SectionNavComponent extends Component {
     </a>
     */
     protected function body() {
-        $heading = (new Component())->tag('div')->addContent($this->header)->class('sb-sidenav-menu-heading');
-        
-        
+        return (new Component())->tag('div')->class('sb-sidenav-menu-heading')->addContent("{$this->header}");
+    }
+
+    public function setActiveClass(string $active) {
+        $this->active_class = $active;
+        return $this;
     }
 }
