@@ -1,136 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title><?php echo isset($title) ? $title : 'Dashboard'; ?></title>
-
-    <?php
-    // Register / show styles via framework helpers
-    if (function_exists('style')) {
-        // fonts
-        style('google-fonts');
-        style('fontawesome');
-        // bootstrap base styles
-        style('bootstrap');
-        // theme overrides
-        style('sb-admin');
-    }
-    if (class_exists('\\Fmk\\Components\\StylesComponent')) {
-        echo \Fmk\Components\StylesComponent::show();
-    }
-    ?>
-
-</head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title><?=APPLICATION_NAME?></title>
+        
+        <?= script('fontawesome')->show() ?>
+        <?= style('simple-datatables', 'styles', 'custom')->show() ?>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Sidebar Toggle (botão aumentado e mais visível) -->
+            <button class="btn btn-link btn-sm order-3 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+                <span class="visually-hidden">Abrir/fechar menu</span>
+            </button>
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-2" href=<?=route('home')?>><?=APPLICATION_NAME?></a>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Caçar por..." aria-label="Caçar por..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
-                <div class="sidebar-brand-text mx-3">Hotel <sup>2</sup></div>
-            </a>
-
-            <hr class="sidebar-divider my-0">
-
-            <!-- Add other sidebar items as needed -->
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <!-- Topbar content (search, alerts, user) can be added here) -->
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Here the specific view content will be injected -->
-                    {{$VIEW}}
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>&copy; <?php echo date('Y'); ?> Hotel</span>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Configurações</a></li>
+                        <li><a class="dropdown-item" href="#!">Registro de Atividades</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <?=
+                            component('section', ['label'=>'Início', 'route'=>'home', 'icon'=>'fas fa-home'])->header('Principal');
+                            ?>
+                            <?php
+                            $quartos =item('Quartos','quartos.index', 'fas fa-bed', true);
+                            $quartos->subItem('Listar Quartos', 'quartos.index');
+                            $quartos->subItem('Novo Quarto', 'quartos.create');
+                            echo component('section', [$quartos])->header('Gerenciamento');
+                            ?>
+                        </div>
                     </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal (kept minimal) -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/login">Logout</a>
-                </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logado como:</div>
+                        <?= $user ?? 'Guest' ?>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4"><?= $title ?></h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"><?= $sub_title ?></li>
+                        </ol>
+                        {{$VIEW}}
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Caio Felipe, 2025</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
-    </div>
 
-    <?php
-    // Register and show scripts via helpers
-    if (function_exists('script')) {
-        script('jquery');
-        script('bootstrap');
-        script('jquery-easing');
-        script('sb-admin');
-        script('chartjs');
-        script('chart-area-demo');
-        script('chart-pie-demo');
-    }
-    if (class_exists('\\Fmk\\Components\\ScriptsComponent')) {
-        echo \Fmk\Components\ScriptsComponent::show();
-    }
-    ?>
-
-</body>
-
+        <?= script('bootstrap', 'script')->show() ?>
+    </body>
 </html>

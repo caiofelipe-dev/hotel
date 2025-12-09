@@ -12,8 +12,3 @@ if (is_string($response) || is_numeric($response)) {
 	// execution was aborted by middleware or redirect already sent
 	// do nothing
 }
-
-// echo "<pre>";
-// $home = new HomeController();
-// $sla = call_user_func_array([$home, 'index'], [Request::getInstance(), 11, '33']);
-// var_dump($sla);
