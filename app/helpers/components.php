@@ -20,7 +20,7 @@ if (!function_exists('component')) {
     {
         try {
             if(is_null($component)) {
-                return (new Fmk\Facades\Component(''))->addContent($content);
+                return (new Fmk\Facades\Component())->addContent($content);
             }
             // 1. Tentar instanciar pela classe diretamente
             if (class_exists($component)) {

@@ -1,8 +1,22 @@
 <?php
 
 return [
-    'styles' => assets('css/styles.css'),
-    'simple-datatables' => 'https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css',
-    // Estilos customizados da aplicação (registrados para serem carregados via component de estilos)
-    'custom' => assets('css/custom.css'),
+    // RAIZ
+    'bootstrap' => assets('css/bootstrap.min.css'),
+
+    'demo.css' => assets('css/demo.css'),
+    'demo.map' => assets('css/demo.css.map'),
+
+    'fonts' => assets('css/fonts.css'),
+    'fonts.min' => assets('css/fonts.min.css'),
+
+    'kaiadmin' => assets('css/kaiadmin.css'),
+    'kaiadmin.map' => assets('css/kaiadmin.css.map'),
+    'kaiadmin.min' => assets('css/kaiadmin.min.css'),
+
+    'plugins.css' => assets('css/plugins.css'),
+    'plugins.map' => assets('css/plugins.css.map'),
+    'plugins.min' => assets('css/plugins.min.css'),
+
+
 ];
