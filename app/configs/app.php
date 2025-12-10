@@ -1,6 +1,6 @@
 <?php
 return [
-    'APPLICATION_NAME' => 'Gerenciamento de Hotel',
+    'APPLICATION_NAME' => 'Hanover Hotel',
     'SESSION_NAME' => 'hotel_session',
     'APPLICATION_DEBUG' => true,
     "APPLICATION_ENV" => 'development',

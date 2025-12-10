@@ -8,7 +8,7 @@ return [
     'demo.map' => assets('css/demo.css.map'),
 
     'fonts' => assets('css/fonts.css'),
-    'fonts.min' => assets('css/fonts.min.css'),
+    'fonts-min' => assets('css/fonts.min.css'),
 
     'kaiadmin' => assets('css/kaiadmin.css'),
     'kaiadmin.map' => assets('css/kaiadmin.css.map'),

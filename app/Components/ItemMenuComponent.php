@@ -11,10 +11,11 @@ class ItemMenuComponent extends Component {
     protected string $label;
     protected $route;
     protected $icon;
-    protected $sub_item = false;
+    protected bool $sub_item = false;
     protected bool $active = false;
     protected $active_class;
     protected $items = [];
+    public string $trimLabel;
 
     public function __construct() {
     }
@@ -24,7 +25,7 @@ class ItemMenuComponent extends Component {
         $this->sub_item = $contents['sub_item'] ?? false;
         if(!$this->sub_item) {
             if(!isset($contents['url'])) {
-                $route = $contents['route'] ? $contents['route'] : throw new Exception('Rota não definida na criação do menu!');
+                $route = $contents['route'] ?? throw new Exception('Rota não definida na criação do menu!');
                 $this->route = $route ? getRouteBy($route) : throw new Exception("Rota $route não encontrada na criação do menu!");
             } else {
                 $this->route = $contents['url'];
@@ -36,6 +37,7 @@ class ItemMenuComponent extends Component {
         $this->active_class = $contents['active_class'] ?? NULL;
         $this->tag = $contents['tag'] ?? NULL;
         $this->classes = $contents['classes'] ?? NULL;
+        $this->trimLabel = strtolower(trim(str_replace(' ', '', $this->label)));
         
         return $this;
     }
@@ -50,8 +52,8 @@ class ItemMenuComponent extends Component {
         return $this;
     }
 
-    public function subItem($label, $route, $icon = NULL, ?string $tag = NULL, NULL|string|array $classes = NULL, ?string $active_class = NULL) {
-        $this->items[] = item($label, $route, $icon, false, $tag, $classes, $active_class);
+    public function subItem($label, $route, $icon = NULL, bool $sub_item = false, ?string $tag = NULL, NULL|string|array $classes = NULL, ?string $active_class = NULL) {
+        $this->items[] = item($label, $route, $icon, $sub_item, $tag, $classes, $active_class);
         $this->sub_item = isset($this->items);
         return $this;
     }
@@ -60,11 +62,14 @@ class ItemMenuComponent extends Component {
         return $this->label;
     }
     public function getRoute() {
-        return $this->route;
+        return $this->route ?? NULL;
     }
     public function getIcon() {
-        $icons = explode(' ', $this->icon);
-        return $icons;
+        if($this->icon){
+            $icons = explode(' ', $this->icon);
+            return $icons;
+        }
+        return NULL;
     }
     public function isActive() {
         if($this->hasSubItem()) {

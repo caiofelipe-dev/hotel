@@ -36,44 +36,29 @@ class SectionNavComponent extends Component {
         
         return $this;
     }
-    /*
-    <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="true" aria-controls="collapseLayouts">
-        <div class="sb-nav-link-icon"><svg class="svg-inline--fa fa-table-columns" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="table-columns" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z"></path></svg><!-- <i class="fas fa-columns"></i> Font Awesome fontawesome.com --></div>
-        Layouts
-        <div class="sb-sidenav-collapse-arrow"><svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg><!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com --></div>
-    </a>
-    */
-    protected $sub_a_attrs = [
-        "data-bs-toggle"=>"collapse",
-        "data-bs-target"=>"#collapseLayouts",
-        "aria-expanded"=>"false",
-        "aria-controls"=>"collapseLayouts",
-    ];
-    protected $sub_div_attrs = [
-        "aria-labelledby"=>"headingOne",
-        "data-bs-parent"=>"#sidenavAccordion",
-        "style"=>"",
-    ];
-    protected $sub_arrow_icon = ['fas', 'fa-angle-down'];
 
+    /*
+     <li class="nav-item">
+        <a href="widgets.html">
+            <i class="fas fa-desktop"></i>
+            <p>Widgets</p>
+            <span class="badge badge-success">4</span>
+        </a>
+        </li>
+     */
     protected function convertItem(ItemMenuComponent &$item) {
-        $this->content[] = $item;
         $active = $this->itemActive($item);
-        $item->tag('a')->class('nav-link')->attr('href', "{$item->getRoute()}")->setContent(
-            //Div do ícone
-            component()->tag('div')->class('sb-nav-link-icon')
-                ->addContent(component()->tag('i')->class(...$item->getIcon()))
-        )->setContent("{$item->getLabel()}");
+        
+        $a = component()->tag('a')->attr('href', ($item->getRoute() ?? "#"))
+            ->addContent(/* Div do ícone */ component()->tag('i')->class(...($item->getIcon() ?? [])))
+            ->addContent(/* Label */ component()->tag('p')->addContent("{$item->getLabel()}"));
+        $item->tag('li')->class('nav-item')->setContent($a);
+        
         if($item->hasSubItem()) {
-            $item->class('collapsed')->attrs($this->sub_a_attrs)->setContent(
-                //Div do ícone de arrow do submenu
-                component()->tag('div')->class('sb-sidenav-collapse-arrow')
-                    ->addContent(component()->tag('i')->class(...$this->sub_arrow_icon))
-            );
-            (!$active) || $item->updateAttr("aria-expanded", "true");
-            $sub_items = $item->getSubItems();
-            $this->content[] = $this->convertSubItem($sub_items, $active);
+            $item->setContent($this->convertSubItem($item, $a, $active));
+            $a->attr('data-bs-target',"#$item->trimLabel")->attr("aria-expanded", "true");
         }
+        return $this->content[] = $item;
     }
 
     protected function itemActive(ItemMenuComponent &$item) {
@@ -83,22 +68,34 @@ class SectionNavComponent extends Component {
         return $active;
     }
     
-    protected function convertSubItem(array &$sub_items, $active) {
-        //<div class="collapse show" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion" style="">
-        $collapse = component()->tag('div')->class("collapse", ($active ? 'show' : ''))->id("collapseLayouts")->attrs($this->sub_div_attrs);
-        $nav = component()->tag('nav')->class('sb-sidenav-menu-nested nav');
-        foreach ($sub_items as &$item) {
-            if($item instanceof ItemMenuComponent) {
-                $item->tag('a')->class('nav-link')->attr('href', "{$item->getRoute()}")->setContent("{$item->getLabel()}");
-                $this->itemActive($item);
-                $nav->addContent($item);
-                continue;
+    protected function convertSubItem(ItemMenuComponent &$item, &$item_a, $active) {
+        $item_a->attr('data-bs-toggle','collapse')
+                ->addContent(/* SETINHA */ component()->tag("span")->class('caret'));
+                    
+                    $div = component()->tag('div')->class('collapse')->id($item->trimLabel)->class(($active ? "show" : NULL));
+        $ul = component()->tag('ul')->class('nav', 'nav-collapse');
+        
+        foreach($item->getSubItems() as $sub_item) {
+            $active = $this->itemActive($sub_item);
+            $a = component()->tag("a")->addContent(
+                    component()->tag('span')->addContent($sub_item->getLabel())->class('sub-item')
+                )->attr('href', "".$sub_item->getRoute());
+            $sub_item->setContent($a)->tag("li");
+            $ul->addContent($sub_item);
+            
+            if($sub_item->hasSubItem()) {
+                $sub_item->setContent($this->convertSubItem($sub_item, $a, $active));
+                $ul->class('subnav');
             }
-            throw new Exception("O subitem $item deve pertencer a ItemMenuComponent.");
         }
-        return $collapse->addContent($nav);
+        return $div->addContent($ul);
     }
 
+    /**
+     * Cria um componente Header e o joga pra riba do array $content
+     * @param string $header
+     * @return static
+     */
     public function header(string $header) {
         if(is_null($this->header)) {
             $this->header = $header;
@@ -108,21 +105,29 @@ class SectionNavComponent extends Component {
         if($header === $this->header)
             return $this;
 
-        $first = &$this->content[array_key_first($this->content)];
-        if($first instanceof Component && $first->getContents() === $this->header)
-            $first->updateContent("{$header}");
+        $first = &$this->getContentFirst();
+        if($first instanceof Component && $first->renderContents() === $this->header)
+            $first->updateContent($header);
         return $this;
     }
     
     /*
-    <div class="sb-sidenav-menu-heading">Principal</div>
-    <a class="nav-link active collapsed" href="http://hotel.test/">
-        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-        Início
-    </a>
+        <li class="nav-section">
+            <span class="sidebar-mini-icon">
+                <i class="fa fa-ellipsis-h"></i>
+            </span>
+            <h4 class="text-section">Components</h4>
+        </li>
     */
     protected function body() {
-        return (new Component())->tag('div')->class('sb-sidenav-menu-heading')->addContent("{$this->header}");
+        return (new Component())->tag('li')->class('nav-section')
+            ->addContent(
+                component()->tag('span')->class('sidebar-mini-icon')->addContent(
+                    component()->tag('i')->class("fa", "fa-ellipsis-h")
+                )
+            )->addContent(
+                component()->tag("h4")->class('text-section')->addContent("{$this->header}")
+            );
     }
 
     public function setActiveClass(string $active) {
