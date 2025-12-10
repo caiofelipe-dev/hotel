@@ -48,7 +48,7 @@ use Fmk\Facades\Config;
             <?=component()->tag('img')->attrs(
                 [
                     "src"=> \Fmk\Facades\Config::get('imgs.logo'),
-                    "alt"=>"navbar brand",
+                    "alt"=>["navbar", "brand"],
                     "class"=>"navbar-brand",
                     "height"=>"40",
                 ]
@@ -84,22 +84,22 @@ use Fmk\Facades\Config;
                   ]
               )->header('Gerenciamento')
               ?>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
-                  <i class="fas fa-layer-group"></i>
-                  <p>Base</p>
+              <li class="nav-item active submenu">
+                <a data-bs-toggle="collapse" href="#charts">
+                  <i class="far fa-chart-bar"></i>
+                  <p>Charts</p>
                   <span class="caret"></span>
                 </a>
-                <div class="collapse" id="base">
+                <div class="collapse show" id="charts">
                   <ul class="nav nav-collapse">
-                    <li>
-                      <a href="components/avatars.html">
-                        <span class="sub-item">Avatars</span>
+                    <li class="active">
+                      <a href="../charts/charts.html">
+                        <span class="sub-item">Chart Js</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/buttons.html">
-                        <span class="sub-item">Buttons</span>
+                      <a href="../charts/sparkline.html">
+                        <span class="sub-item">Sparkline</span>
                       </a>
                     </li>
                   </ul>
@@ -755,6 +755,29 @@ use Fmk\Facades\Config;
     <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="assets/js/kaiadmin.min.js"></script>
+    <?php
+      $__kai_path = __DIR__ . '/../../../public/assets/js/kaiadmin.min.js';
+      $__kai_v = (file_exists($__kai_path)) ? filemtime($__kai_path) : time();
+    ?>
+    <script src="<?= assets('js/kaiadmin.min.js') ?>?v=<?= $__kai_v ?>"></script>
+    <script>
+    (function(){
+      if (typeof jQuery === 'undefined') return;
+      jQuery(function($){
+        // debug marker to confirm snippet execution in browser console
+        try { console.log('[submenuFix] active'); } catch(e) {}
+        // override safe: namespace handler and ensure it only affects collapse triggers
+        $(".nav-item a[data-bs-toggle='collapse']").off('click.submenuFix').on('click.submenuFix', function(e){
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          var $parent = $(this).parent();
+          var $collapse = $parent.find('.collapse');
+          if ($collapse.length) {
+            $parent.toggleClass('submenu');
+          }
+        });
+      });
+    })();
+    </script>
   </body>
 </html>
