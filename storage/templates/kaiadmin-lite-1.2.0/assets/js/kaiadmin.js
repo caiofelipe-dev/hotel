@@ -292,15 +292,16 @@ $(document).ready(function(){
 		}
 	});
 
-	// addClass if nav-item click and has subnav
+	// addClass if nav-item click and has subnav (only for collapse triggers)
 
-	$(".nav-item a").on('click', (function(){
+	$(".nav-item a[data-bs-toggle='collapse']").on('click', function(e){
+		e.preventDefault();
 		if ( $(this).parent().find('.collapse').hasClass("show") ) {
 			$(this).parent().removeClass('submenu');
 		} else {
 			$(this).parent().addClass('submenu');
 		}
-	}));
+	});
 
 
 	//Chat Open
