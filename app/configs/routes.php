@@ -24,11 +24,3 @@ Router::post('/quartos', [QuartosController::class, 'store'])->name('quartos.sto
 Router::get('/quartos/{id}/edit', [QuartosController::class, 'edit'])->name('quartos.edit');
 Router::post('/quartos/{id}/update', [QuartosController::class, 'update'])->name('quartos.update');
 Router::post('/quartos/{id}/delete', [QuartosController::class, 'destroy'])->name('quartos.destroy');
-
-Router::get('/templates/kaia', function() {include __DIR__."/../../storage/templates/kaiadmin-lite-1.2.0/index.html";});
-Router::get('/templates/sb', function() {include __DIR__."/../../storage/templates/startbootstrap-sb-admin-gh-pages/index.html";});
-
-// Router::get('/templates/kaia', function() {header("Location: ".__DIR__."/../../storage/templates/kaiadmin-lite-1.2.0/index.html", true, 0); exit();});
-// Router::get('/templates/sb', function() {header( "Location: ".__DIR__."/../../storage/templates/startbootstrap-sb-admin-gh-pages/index.html", true, 0); exit();});
-
-// Router::get('/teste', function() {$dir = __DIR__;echo "<form action='$dir/../../storage/templates/kaiadmin-lite-1.2.0/index.html' method='GET'><input value='enviar' type='submit'></form>";});
