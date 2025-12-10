@@ -9,7 +9,6 @@ use Fmk\Facades\Router;
 
 class SectionNavComponent extends Component {
     protected $header;
-    protected $tag = '';
 
     protected $active_class = 'active';
 
@@ -64,7 +63,7 @@ class SectionNavComponent extends Component {
     protected function itemActive(ItemMenuComponent &$item) {
         $active = $item->isActive();
         if($active)
-            $item->class(($item->getActiveClass() ?? $this->active_class));
+            $item->class("submenu", ($item->getActiveClass() ?? $this->active_class));
         return $active;
     }
     
