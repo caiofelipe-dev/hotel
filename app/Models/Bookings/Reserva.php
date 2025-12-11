@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Bookings;
 
 use Fmk\Facades\Model;
 
@@ -16,6 +16,6 @@ class Reserva extends Model
 		return $this->hasMany(Documento::class, 'reservas_id');
 	}
 	public function reservaQuartos() {
-		return $this->hasMany(\App\Models\ReservaQuarto::class, 'reservas_id');
+		return $this->hasMany(ReservaQuarto::class, 'reservas_id');
 	}
 }

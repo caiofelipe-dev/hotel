@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Rooms;
 
 use Fmk\Facades\Model;
 

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use Fmk\Facades\Controller;
 use Fmk\Facades\Request;
 use Fmk\Facades\Router;
-use App\Models\AdicionalTipo;
+use App\Models\Rooms\AdicionalTipo;
 
 use function session_get;
 use function session_set;

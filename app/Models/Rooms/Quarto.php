@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Rooms;
 
 use Fmk\Facades\Model;
 
@@ -10,7 +10,7 @@ class Quarto extends Model
 	protected static $table = 'quartos';
 	
 	public function adicionais() {
-		return $this->hasMany(\App\Models\QuartoAdicional::class, 'quartos_id');
+		return $this->hasMany(QuartoAdicional::class, 'quartos_id');
 	}
 
 	public function listAdicionais() {

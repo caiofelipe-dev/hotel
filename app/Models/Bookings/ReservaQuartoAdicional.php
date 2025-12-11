@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Bookings;
 
 use Fmk\Facades\Model;
+use App\Models\Rooms\QuartoAdicional;
 
 class ReservaQuartoAdicional extends Model
 {

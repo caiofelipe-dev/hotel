@@ -5,7 +5,7 @@ namespace App\Controllers;
 use Fmk\Facades\Controller;
 use Fmk\Facades\Request;
 use Fmk\Facades\Router;
-use App\Models\Quarto;
+use App\Models\Rooms\Quarto;
 
 use function session_get;
 use function session_set;
@@ -20,10 +20,11 @@ class QuartosController extends Controller
 
     public function index()
     {
+        var_dump(new Quarto);
         try {
             $quartos = Quarto::all();
         } catch (\Throwable $e) {
-            session_set('errors', ['db' => 'Erro ao acessar o banco de dados.']);
+            session_set('errors', ['db' => "Erro ao acessar o banco de dados, se liga: $e."]);
             $quartos = [];
         }
         return view('quartos.index', ['title' => 'Quartos', 'quartos' => $quartos]);

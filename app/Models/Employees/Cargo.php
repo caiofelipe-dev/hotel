@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Employees;
 
 use Fmk\Facades\Model;
 
@@ -10,6 +10,6 @@ class Cargo extends Model
 	protected static $table = 'cargos';
 	
 	public function funcionarios() {
-		return $this->hasMany(\App\Models\Funcionario::class, 'cargos_id');
+		return $this->hasMany(Funcionario::class, 'cargos_id');
 	}
 }

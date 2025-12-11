@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Employees;
 
 use Fmk\Facades\Model;
 
@@ -10,6 +10,6 @@ class ServicoTipo extends Model
 	protected static $table = 'servico_tipos';
 	
 	public function funcionarioServicos() {
-		return $this->hasMany(\App\Models\FuncionarioServico::class, 'servico_tipos_id');
+		return $this->hasMany(FuncionarioServico::class, 'servico_tipos_id');
 	}
 }

@@ -5,8 +5,8 @@ namespace App\Controllers;
 use Fmk\Facades\Controller;
 use Fmk\Facades\Request;
 use Fmk\Facades\Router;
-use App\Models\Reserva;
-use App\Models\Hospede;
+use App\Models\Bookings\Reserva;
+use App\Models\Bookings\Hospede;
 
 use function session_get;
 use function session_set;

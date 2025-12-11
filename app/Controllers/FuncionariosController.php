@@ -5,8 +5,8 @@ namespace App\Controllers;
 use Fmk\Facades\Controller;
 use Fmk\Facades\Request;
 use Fmk\Facades\Router;
-use App\Models\Funcionario;
-use App\Models\Cargo;
+use App\Models\Employees\Funcionario;
+use App\Models\Employees\Cargo;
 
 use function session_get;
 use function session_set;

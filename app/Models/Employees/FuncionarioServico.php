@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Employees;
 
 use Fmk\Facades\Model;
 
@@ -10,9 +10,9 @@ class FuncionarioServico extends Model
 	protected static $table = 'funcionario_servicos';
 	
 	public function funcionario() {
-		return $this->belongsTo(\App\Models\Funcionario::class, 'funcionarios_id');
+		return $this->belongsTo(Funcionario::class, 'funcionarios_id');
 	}
 	public function servicoTipo() {
-		return $this->belongsTo(\App\Models\Quartos\QuartoAdicional::class, 'servico_tipos_id');
+		return $this->belongsTo(ServicoTipo::class, 'servico_tipos_id');
 	}
 }
