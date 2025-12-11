@@ -20,14 +20,13 @@ class QuartosController extends Controller
 
     public function index()
     {
-        var_dump(new Quarto);
         try {
             $quartos = Quarto::all();
         } catch (\Throwable $e) {
-            session_set('errors', ['db' => "Erro ao acessar o banco de dados, se liga: $e."]);
+            session_set('errors', ['db' => "Erro ao acessar o banco de dados: $e."]);
             $quartos = [];
         }
-        return view('quartos.index', ['title' => 'Quartos', 'quartos' => $quartos]);
+        return view('quartos.index', ['quartos' => $quartos]);
     }
 
     public function edit($id)

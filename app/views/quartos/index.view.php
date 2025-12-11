@@ -24,7 +24,6 @@
                     <?php if (!empty($quartos)): ?>
                         <?php foreach ($quartos as $q): ?>
                             <?php
-                            // $q may be object (DB model) or array (session fallback)
                             $isObject = is_object($q);
                             $get = function($key) use ($q, $isObject) {
                                 if ($isObject) {
