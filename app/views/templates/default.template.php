@@ -81,30 +81,36 @@ use Fmk\Facades\Config;
                     item('Quartos', NULL, 'fas fa-bed', true)
                       ->subItem('Listar Quartos', 'quartos.index')
                       ->subItem('Cadastrar Quarto', 'quartos.create'),
+                    item('Adicionais', NULL, 'fas fa-plus-circle', true)
+                      ->subItem('Listar Adicionais', 'adicionais.index')
+                      ->subItem('Cadastrar Adicional', 'adicionais.create'),
                   ]
               )->header('Gerenciamento')
               ?>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
-                  <i class="fas fa-layer-group"></i>
-                  <p>Base</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="base">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="components/avatars.html">
-                        <span class="sub-item">Avatars</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/buttons.html">
-                        <span class="sub-item">Buttons</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
+              <?=
+              component('section',
+                  [
+                    item('Hóspedes', NULL, 'fas fa-users', true)
+                      ->subItem('Listar Hóspedes', 'hospedes.index')
+                      ->subItem('Cadastrar Hóspede', 'hospedes.create'),
+                    item('Reservas', NULL, 'fas fa-calendar-check', true)
+                      ->subItem('Listar Reservas', 'reservas.index')
+                      ->subItem('Criar Reserva', 'reservas.create'),
+                  ]
+              )->header('Hospedagem')
+              ?>
+              <?=
+              component('section',
+                  [
+                    item('Funcionários', NULL, 'fas fa-user-tie', true)
+                      ->subItem('Listar Funcionários', 'funcionarios.index')
+                      ->subItem('Cadastrar Funcionário', 'funcionarios.create'),
+                    item('Cargos', NULL, 'fas fa-briefcase', true)
+                      ->subItem('Listar Cargos', 'cargos.index')
+                      ->subItem('Cadastrar Cargo', 'cargos.create'),
+                  ]
+              )->header('Recursos Humanos')
+              ?>
             </ul>
           </div>
         </div>
